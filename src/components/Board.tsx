@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Column } from './Column';
-import { Task } from './Task';
-import { DndContext, DragOverlay, DragStartEvent } from '@dnd-kit/core';
+import { DndContext, DragOverlay } from '@dnd-kit/core';
 import type { ColumnType, TaskType } from '../types';
 import { moveTask } from '../state/boardSlice';
 import type { DragEndEvent } from '@dnd-kit/core';
+import { Add } from './Add';
 
 export const Board: React.FC = () => {
   const dispatch = useDispatch();
@@ -49,6 +49,7 @@ export const Board: React.FC = () => {
 
   return (
     <>
+      <Add />
       <div style={style}>
         <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
           {columns.map((column: ColumnType) => (
