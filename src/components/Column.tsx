@@ -42,6 +42,10 @@ export const Column: React.FC<{ column: ColumnType }> = ({ column }) => {
   const { setNodeRef } = useDroppable({
     id: column.id,
   });
+  /*
+  -webkit-box-shadow: 2px 5px 15px 2px rgba(0,0,0,0.35); 
+box-shadow: 2px 5px 15px 2px rgba(0,0,0,0.35);
+*/
 
   const style: React.CSSProperties = {
     backgroundColor: getColumnColor(column.id),
@@ -49,6 +53,7 @@ export const Column: React.FC<{ column: ColumnType }> = ({ column }) => {
     borderRadius: '10px',
     padding: '16px',
     minHeight: '200px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
   };
 
   return (
