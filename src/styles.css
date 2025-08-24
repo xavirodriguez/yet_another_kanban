@@ -1,0 +1,420 @@
+/* ===== ESTILOS GLOBALES ===== */
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(0, 0, 0);
+  background-color: #fafafa;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* ===== APP CONTAINER ===== */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* ===== BOARD STYLES ===== */
+.board-container {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+
+.board-grid-1 {
+  grid-template-columns: minmax(300px, 1fr);
+}
+.board-grid-2 {
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
+}
+.board-grid-3 {
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
+}
+.board-grid-4 {
+  grid-template-columns: repeat(4, minmax(300px, 1fr));
+}
+.board-grid-5 {
+  grid-template-columns: repeat(5, minmax(300px, 1fr));
+}
+
+/* ===== COLUMN STYLES ===== */
+.column {
+  display: block;
+  border-radius: 10px;
+  padding: 16px;
+  min-height: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.column-title {
+  margin: 0 0 16px 0;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.column-empty-message {
+  color: white;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* Colores específicos para columnas */
+.column-1 {
+  background-color: #6b7a8f;
+}
+.column-2 {
+  background-color: #f7882f;
+}
+.column-3 {
+  background-color: #f7c331;
+}
+.column-4 {
+  background-color: #dcc7aa;
+}
+.column-5 {
+  background-color: #5c3d5b;
+}
+.column-6 {
+  background-color: #cedbef;
+}
+.column-7 {
+  background-color: #e7afaf;
+}
+.column-8 {
+  background-color: #a8dadc;
+}
+.column-9 {
+  background-color: #f1faee;
+}
+.column-10 {
+  background-color: #e63946;
+}
+
+/* ===== TASK STYLES ===== */
+.task {
+  margin: 8px;
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 1rem;
+  backdrop-filter: blur(2px);
+  border-radius: 6px;
+  border: 1px solid #e1e5e9;
+  will-change: transform;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.task:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.task--dragging {
+  opacity: 0.8;
+  cursor: grabbing;
+  z-index: 999;
+}
+
+.task--grabbable {
+  cursor: grab;
+}
+
+.task-overlay {
+  padding: 12px;
+  margin: 8px;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #e1e5e9;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+  cursor: grabbing;
+  transform: rotate(5deg);
+}
+
+/* ===== ADD BUTTON STYLES ===== */
+.add-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 2rem;
+  border-radius: 50%;
+  background: #f7c331;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.add-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.add-button:active {
+  transform: scale(0.95);
+}
+
+.add-button-icon {
+  width: 70%;
+}
+
+/* ===== MODAL STYLES ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.modal-content {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== FORM STYLES ===== */
+.form-title {
+  text-align: center;
+  color: #333;
+  margin: 0 0 1.5rem 0;
+}
+
+.add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: white;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.form-textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 80px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.form-button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.form-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.form-button:active {
+  transform: translateY(0);
+}
+
+.form-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===== UTILITY CLASSES ===== */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.error {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.success {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .board-container {
+    grid-template-columns: 1fr !important;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .column {
+    padding: 12px;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .add-button {
+    bottom: 1rem;
+    right: 1rem;
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #root {
+    padding: 1rem;
+  }
+
+  .task {
+    margin: 4px;
+    padding: 0.75rem;
+  }
+
+  .form-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* ===== DARK MODE SUPPORT ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #ffffff;
+    background-color: #1a1a1a;
+  }
+
+  .modal-content {
+    background: #2d2d2d;
+    color: white;
+  }
+
+  .form-select,
+  .form-textarea {
+    background-color: #3d3d3d;
+    color: white;
+    border-color: #555;
+  }
+
+  .form-select:focus,
+  .form-textarea:focus {
+    border-color: #007bff;
+  }
+
+  .task {
+    background-color: rgba(45, 45, 45, 0.9);
+    color: white;
+    border-color: #555;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus styles para accesibilidad */
+.add-button:focus-visible,
+.form-button:focus-visible,
+.form-select:focus-visible,
+.form-textarea:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.task:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 1px;
+}

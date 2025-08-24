@@ -4,19 +4,40 @@ import { useDispatch } from 'react-redux';
 import { closeAddForm } from '../state/uiSlice';
 import { addTask } from '../state/boardSlice';
 import type { RootState } from '../state/store';
+import React from 'react';
 
 export const AddForm: React.FC = () => {
   const dispatch = useDispatch();
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const columnId = formData.get('columnId') as string;
-    const task = formData.get('task') as string;
+    setError(null);
+    setIsSubmitting(true);
 
-    dispatch(addTask({ columnId, task }));
-    e.currentTarget.reset();
-    dispatch(closeAddForm());
+    try {
+      const formData = new FormData(e.currentTarget);
+      const columnId = formData.get('columnId') as string;
+      const task = formData.get('task') as string;
+
+      if (!task.trim()) {
+        setError('Task description is required');
+        return;
+      }
+
+      if (task.length > 500) {
+        setError('Task description too long (max 500 characters)');
+        return;
+      }
+      dispatch(addTask({ columnId, task: task.trim() }));
+      e.currentTarget.reset();
+      dispatch(closeAddForm());
+    } catch (err) {
+      setError('Failed to add task. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const { columns } = useSelector((state: RootState) => {
@@ -28,58 +49,72 @@ export const AddForm: React.FC = () => {
     };
   });
 
-  return (
-    <>
-      <div>
-        <h2 style={{ textAlign: 'center', color: '#333' }}>Add New Task</h2>
-        <form
-          onSubmit={handleSubmit}
-          style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
-        >
-          <select
-            style={{
-              padding: '10px',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-              fontSize: '16px',
-            }}
-            name="columnId"
-            required
-          >
-            {columns.map((column: any) => (
-              <option key={column.id} value={column.id}>
-                {column.title}
-              </option>
-            ))}
-          </select>
+  const handleTextareaKeyDown = (
+    e: React.KeyboardEvent<HTMLTextAreaElement>,
+  ) => {
+    // Permitir envío con Ctrl+Enter
+    if (e.key === 'Enter' && e.ctrlKey) {
+      e.preventDefault();
+      const form = e.currentTarget.form;
+      if (form) {
+        form.dispatchEvent(
+          new Event('submit', { cancelable: true, bubbles: true }),
+        );
+      }
+    }
+  };
 
-          <textarea
-            name="task"
-            placeholder="Task Description"
-            rows={4}
-            style={{
-              padding: '10px',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-              fontSize: '16px',
-            }}
-          ></textarea>
-          <button
-            type="submit"
-            style={{
-              padding: '10px',
-              backgroundColor: '#007bff',
-              color: '#fff',
-              borderRadius: '5px',
-              border: 'none',
-              fontSize: '16px',
-              cursor: 'pointer',
-            }}
-          >
-            Add Task
-          </button>
-        </form>
-      </div>
-    </>
+  return (
+    <div>
+      <h2 className="form-title">Add New Task</h2>
+
+      {error && (
+        <div className="error" role="alert">
+          {error}
+        </div>
+      )}
+
+      <form
+        onSubmit={handleSubmit}
+        className={`add-form ${isSubmitting ? 'loading' : ''}`}
+      >
+        <label htmlFor="columnId" className="visually-hidden">
+          Select column
+        </label>
+        <select
+          id="columnId"
+          name="columnId"
+          required
+          disabled={isSubmitting}
+          className="form-select"
+        >
+          <option value="">Select a column...</option>
+          {columns.map((column) => (
+            <option key={column.id} value={column.id}>
+              {column.title}
+            </option>
+          ))}
+        </select>
+
+        <label htmlFor="task" className="visually-hidden">
+          Task description
+        </label>
+        <textarea
+          id="task"
+          name="task"
+          placeholder="Task Description (Ctrl+Enter to submit)"
+          rows={4}
+          maxLength={500}
+          required
+          disabled={isSubmitting}
+          className="form-textarea"
+          onKeyDown={handleTextareaKeyDown}
+        />
+
+        <button type="submit" disabled={isSubmitting} className="form-button">
+          {isSubmitting ? 'Adding...' : 'Add Task'}
+        </button>
+      </form>
+    </div>
   );
 };
