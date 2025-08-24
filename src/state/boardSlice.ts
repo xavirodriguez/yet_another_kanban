@@ -51,7 +51,7 @@ const initialState = {
       const newTaskId = `task-${Object.keys(state.tasks).length + 1}`;
       state.tasks[newTaskId] = { id: newTaskId, content: task };
       state.columns[columnId].taskIds.push(newTaskId);
-      
+
     },
      moveTask(state, action) {
         const { activeId, overId } = action.payload;
@@ -80,5 +80,5 @@ const initialState = {
    }
  });
 
-export const { moveTask } = boardSlice.actions;
+export const { moveTask , addTask } = boardSlice.actions;
 export default boardSlice.reducer;
