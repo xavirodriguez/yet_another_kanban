@@ -1,19 +1,35 @@
+import { useSelector } from 'react-redux';
+
 export const AddForm: React.FC = () => {
+  const { columns } = useSelector((state: any) => {
+    const { columns: columnsById, columnOrder } = state.board;
+    return {
+      columns: columnOrder.map((columnId: string) => ({
+        ...columnsById[columnId],
+      })),
+    };
+  });
+
   return (
     <>
       <div>
         <h2 style={{ textAlign: 'center', color: '#333' }}>Add New Task</h2>
         <form style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <input
-            type="text"
-            placeholder="Task Title"
+          <select
             style={{
               padding: '10px',
               borderRadius: '5px',
               border: '1px solid #ccc',
               fontSize: '16px',
             }}
-          />
+          >
+            {columns.map((column: any) => (
+              <option key={column.id} value={column.id}>
+                {column.title}
+              </option>
+            ))}
+          </select>
+
           <textarea
             placeholder="Task Description"
             rows={4}

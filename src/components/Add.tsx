@@ -1,9 +1,14 @@
+import { useDispatch } from 'react-redux';
 import PlusIcon from './PlusIcon';
+import { openAddForm } from '../state/uiSlice';
 
 export const Add: React.FC = () => {
+  const dispatch = useDispatch();
   const handleAddTask = () => {
     // Aquí podrías abrir un modal o redirigir a una página de creación de tareas
-    alert('Funcionalidad para añadir tarea aún no implementada.');
+    //alert('Funcionalidad para añadir tarea aún no implementada.');
+    // Por ejemplo, podrías despachar una acción para abrir un modal
+    dispatch(openAddForm());
   };
 
   return (
