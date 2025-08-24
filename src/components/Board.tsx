@@ -7,12 +7,13 @@ import type { ColumnType, TaskType } from '../types';
 import { moveTask } from '../state/boardSlice';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { Add } from './Add';
+import type { RootState } from '../state/store';
 
 export const Board: React.FC = () => {
   const dispatch = useDispatch();
   const [activeTask, setActiveTask] = useState<TaskType | null>(null);
 
-  const { columns, tasks } = useSelector((state: any) => {
+  const { columns, tasks } = useSelector((state: RootState) => {
     const { tasks, columns: columnsById, columnOrder } = state.board;
     return {
       columns: columnOrder.map((columnId: string) => ({

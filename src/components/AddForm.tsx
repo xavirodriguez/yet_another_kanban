@@ -3,6 +3,7 @@ import type { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { closeAddForm } from '../state/uiSlice';
 import { addTask } from '../state/boardSlice';
+import type { RootState } from '../state/store';
 
 export const AddForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ export const AddForm: React.FC = () => {
     dispatch(closeAddForm());
   };
 
-  const { columns } = useSelector((state: any) => {
+  const { columns } = useSelector((state: RootState) => {
     const { columns: columnsById, columnOrder } = state.board;
     return {
       columns: columnOrder.map((columnId: string) => ({

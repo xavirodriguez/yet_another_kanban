@@ -1,18 +1,21 @@
 export interface TaskType {
-    id: string;
-    content: string;
-  }
-  
-  export interface ColumnType {
+  id: string;
+  content: string;
+}
+
+export interface ColumnType {
+  id: string;
+  title: string;
+  tasks: TaskType[]; 
+}
+
+// Definir tipos más específicos para el estado de Redux
+export interface BoardState {
+  tasks: Record<string, TaskType>;
+  columns: Record<string, {
     id: string;
     title: string;
-    tasks: TaskType[]; 
-  }
-  
-  export interface BoardState {
-    tasks: { [taskId: string]: TaskType };
-    columns: { [columnId: string]: ColumnType };
-    columnOrder: string[]; // Array de IDs de columnas para mantener el orden
-  }
-
-  
+    taskIds: string[];
+  }>;
+  columnOrder: string[];
+}
