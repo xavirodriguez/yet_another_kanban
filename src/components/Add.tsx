@@ -1,3 +1,5 @@
+import PlusIcon from './PlusIcon';
+
 export const Add: React.FC = () => {
   const handleAddTask = () => {
     // Aquí podrías abrir un modal o redirigir a una página de creación de tareas
@@ -5,27 +7,43 @@ export const Add: React.FC = () => {
   };
 
   return (
-    <button
+    <div
       onClick={handleAddTask}
       style={{
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        /*
+          position: fixed;
+          bottom: 2rem;
+          right: 2rem;
+          width: 3.5rem;
+          height: 3.5rem;
+          border-radius: 50%;
+          background: #007bff;
+          color: white;
+          font-size: 1.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+          cursor: pointer;
+        */
+        position: 'fixed',
+        bottom: '2rem',
+        right: '2rem',
+        width: '3.5rem',
+        height: '3.5rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        lineHeight: '2rem',
+        borderRadius: '50%',
+        background: '#F7C331',
         color: '#fff',
         border: '1px solid rgba(255, 255, 255, 0.4)',
-        borderRadius: '8px',
-        padding: '0.6rem 1.2rem',
-        fontSize: '1rem',
+        fontSize: '2rem',
         cursor: 'pointer',
-        backdropFilter: 'blur(4px)',
-        transition: 'all 0.3s ease',
       }}
-      onMouseEnter={(e) =>
-        (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)')
-      }
-      onMouseLeave={(e) =>
-        (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)')
-      }
     >
-      ➕ Añadir tarea
-    </button>
+      <PlusIcon style={{ width: '70%' }} />
+    </div>
   );
 };

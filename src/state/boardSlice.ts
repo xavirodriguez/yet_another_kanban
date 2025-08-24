@@ -40,6 +40,19 @@ const initialState = {
    name: 'board',
    initialState,
    reducers: {
+    addColumn(state, action) {
+      const { title } = action.payload;
+      const newColumnId = `column-${Object.keys(state.columns).length + 1}`;
+      state.columns[newColumnId] = { id: newColumnId, title, taskIds: [] };
+      state.columnOrder.push(newColumnId);
+    },
+    addTask(state, action) {
+      const { columnId, task } = action.payload;
+      const newTaskId = `task-${Object.keys(state.tasks).length + 1}`;
+      state.tasks[newTaskId] = { id: newTaskId, content: task };
+      state.columns[columnId].taskIds.push(newTaskId);
+      
+    },
      moveTask(state, action) {
         const { activeId, overId } = action.payload;
         if (!overId) return;
